@@ -1,0 +1,38 @@
+" Search Options
+set hlsearch                   " Highlight searches. See below for more.
+set ignorecase                 " Do case insensitive matching...
+set smartcase                  " ...except when using capital letters
+set incsearch                  " Incremental search
+
+" Insert (Edit) Options
+set backspace=indent,eol,start " Better handling of backspace key
+set autoindent                 " Sane indenting when filetype not recognised
+set nostartofline              " Emulate typical editor navigation behaviour
+
+" Status / Command Line Options
+set showcmd                    " Show (partial) command in status line.
+set laststatus=2               " Always show a status line
+
+" Interface Options
+set number                     " Display line numbers at left of screen
+set visualbell                 " Flash the screen instead of beeping on errors
+set ttimeoutlen=100
+
+" Indentation Options
+set expandtab
+set shiftwidth=4  " Indents will have a width of 4
+set softtabstop=4 " Sets the number of columns for a TAB
+set tabstop=4     " The width of a TAB is set to 4.
+" Still it is a \t. It is just that
+" Vim will interpret it to be having
+" a width of 4.
+
+set scrolloff=0
+
+inoremap jk        <Esc>
+nnoremap <Enter>   o<ESC>
+nnoremap <S-Enter> O<ESC>
+
+" Repeat last macro with Alt-2
+" nnoremap <A-2> @@
+nnoremap 2 @@
