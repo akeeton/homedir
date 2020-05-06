@@ -1,0 +1,58 @@
+echo 'Top of .bashrc'
+
+alias grep='grep --color'
+alias python='winpty python'
+alias dirs='dirs -v'
+alias ungit='mv .git .ungit'
+alias regit='mv .ungit .git'
+alias pip='echo "Running pip... (if you get SSL errors, try pipforceinstall)"; pip'
+alias pipforceinstall='python -m pip install --trusted-host files.pythonhosted.org --trusted-host pypi.org --trusted-host pypi.python.org '
+
+shopt -s globstar
+
+set -o emacs # set
+# set +o emacs # unset
+# set -o vi # set
+# set +o vi # unset
+
+export EDITOR=vim
+export PATH=$PATH:/c/bin/node-v10.15.0-win-x64:/c/bin/git-multi-rebase
+
+export GIT_PS1_SHOWDIRTYSTATE=1
+export GIT_PS1_SHOWSTASHSTATE=1
+export GIT_PS1_SHOWUNTRACKEDFILES=1
+# export GIT_PS1_SHOWUPSTREAM="auto"
+export GIT_PS1_SHOWCOLORHINTS=1
+
+# Creates $SLASH_W_ABBREV, an abbreviated form of '\w' used in $PS1
+# See https://unix.stackexchange.com/a/26860/124008
+export PROMPT_COMMAND='SLASH_W_ABBREV=$(p="${PWD#${HOME}}"; [ "${PWD}" != "${p}" ] && printf "~";IFS=/; for q in ${p:1}; do printf /${q:0:1}; done; printf "${q:1}")'
+
+# Take the default git $PS1 and replace '\w' with '${SLASH_W_ABBREV}'
+export PS1='\[\033]0;$TITLEPREFIX:$PWD\007\]\n\[\033[32m\]\u@\h \[\033[35m\]$MSYSTEM \[\033[33m\]${SLASH_W_ABBREV}\[\033[36m\]`__git_ps1`\[\033[0m\]\n$ '
+
+# Disable flow control (free up CTRL+S and CTRL+Q)
+stty -ixon
+
+# `cd.. n` goes up n directories
+# See https://superuser.com/a/819073/7318
+function cd_up() {
+  cd $(printf "%0.s../" $(seq 1 $1 ));
+}
+alias 'cd..'='cd_up'
+
+# bash parameter completion for the dotnet CLI
+
+_dotnet_bash_complete()
+{
+  local word=${COMP_WORDS[COMP_CWORD]}
+
+  local completions
+  completions="$(dotnet complete --position "${COMP_POINT}" "${COMP_LINE}")"
+
+  COMPREPLY=( $(compgen -W "$completions" -- "$word") )
+}
+
+complete -f -F _dotnet_bash_complete dotnet
+
+echo 'Bottom of .bashrc'
